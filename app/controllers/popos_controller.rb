@@ -1,0 +1,3 @@
+class PoposController < ApplicationController
+
+end
