@@ -1,0 +1,2 @@
+class Popo < ApplicationRecord
+end
