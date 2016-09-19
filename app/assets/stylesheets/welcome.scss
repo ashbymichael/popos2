@@ -1,4 +1,23 @@
+.splash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
 #map-view {
   width: 100%;
   height: 30rem;
+  height: 100vh;
 }
+
+#view-switcher-button {
+  background-color: inherit;
+  border: none;
+  font-size: inherit;
+  padding: 0;
+}
+  #view-switcher-button:hover {
+    cursor: pointer;
+  }

@@ -1,7 +1,7 @@
 $(document).on 'turbolinks:load', ->
   mapDiv  = $('#map-view')
   listDiv = $('#list-view')
-  loading = $("#loading")
+  loading = $(".placeholder-loading")
   userLat = undefined
   userLng = undefined
 
@@ -11,7 +11,7 @@ $(document).on 'turbolinks:load', ->
       $('#view-switcher-button').text 'view as map'
     else
       $('#view-switcher-button').text 'view as list'
-    mapDiv.toggle()
+    $('#map-view').toggle()
     listDiv.toggle()
     return
 
@@ -36,12 +36,29 @@ $(document).on 'turbolinks:load', ->
         lat: 37.7880
         lng: -122.405
       scrollwheel: false
-      zoom: 15)
-    console.log(mapDiv)
+      zoom: 15
+      styles: [
+        {
+          featureType: 'all'
+          stylers: [ { saturation: -50 } ]
+        }
+        # {
+        #   featureType: 'road.arterial'
+        #   elementType: 'geometry'
+        #   stylers: [
+        #     { hue: '#00ffee' }
+        #     { saturation: 50 }
+        #   ]
+        # }
+        {
+          featureType: 'poi.business'
+          elementType: 'labels'
+          stylers: [ { visibility: 'off' } ]
+        }
+      ])
     return
 
   getUserLocation = ->
-    console.log('getting location')
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition setUserLocation, getUserLocationError
     else
@@ -58,13 +75,14 @@ $(document).on 'turbolinks:load', ->
     console.warn 'ERROR(' + err.code + '): ' + err.message
     return
 
-  # loading.hide()
-  # $(document).ajaxStart(->
-  #   loading.show()
-  #   return
-  # ).ajaxStop ->
-  #   loading.hide()
-  #   return
+  loading.hide()
+  $(document).ajaxStart(->
+    loading.show()
+    return
+  ).ajaxStop ->
+    loading.hide()
+    return
+
   GoogleMapsLoader.KEY = "<%= ENV['GOOGLE_KEY'] %>"
   GoogleMapsLoader.LIBRARIES = ['geometry', 'places']
   GoogleMapsLoader.load (google) ->
