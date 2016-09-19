@@ -30,6 +30,16 @@ $(document).on 'turbolinks:load', ->
     else
       return address[address.length - 1]
 
+  initMap = ->
+    mapDiv = new google.maps.Map(document.getElementById('map-view'),
+      center:
+        lat: 37.7880
+        lng: -122.405
+      scrollwheel: false
+      zoom: 15)
+    console.log(mapDiv)
+    return
+
   getUserLocation = ->
     console.log('getting location')
     if navigator.geolocation
@@ -55,6 +65,17 @@ $(document).on 'turbolinks:load', ->
   # ).ajaxStop ->
   #   loading.hide()
   #   return
+  GoogleMapsLoader.KEY = "<%= ENV['GOOGLE_KEY'] %>"
+  GoogleMapsLoader.LIBRARIES = ['geometry', 'places']
+  GoogleMapsLoader.load (google) ->
+    console.log(google)
+    initMap()
+    getUserLocation()
+    # addPopoMarkersToMap()
+    # google.maps.event.addListener map, 'click', (event) ->
+    #   infoWindow.close()
+    #   return
+    return
 
   $('#view-switcher-button').click(switchViews)
   $(document.body).on('click', '.pagination a', viewPage)
