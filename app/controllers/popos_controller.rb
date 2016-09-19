@@ -3,10 +3,8 @@ class PoposController < ApplicationController
     @popos = Popo.all.page(params[:page])
 
     if request.xhr?
-      puts "AJAXXXXXXXXXXXXXXXXXXXXXXXXXXXXX!"
-      render :index, layout: false
+      render erb: :index, layout: false
     end
-
   end
 
   def create

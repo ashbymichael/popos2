@@ -17,12 +17,18 @@ $(document).on 'turbolinks:load', ->
 
   viewPage = (e) ->
     e.preventDefault()
-    console.log('getting next page')
-    $.ajax(url: $(this).attr('href')).done (res) ->
+    href = 'popos?page=' + extractPageNumber($(this).attr('href'))
+    $.ajax(url: href).done (res) ->
       $('#list-view').html($($.parseHTML(res)).filter('#list-view').html())
-      console.log($($.parseHTML(res)).filter('#list-view'))
       return
     return
+
+  extractPageNumber = (address) ->
+    address = address.split('page=')
+    if address.length < 2
+      return '1'
+    else
+      return address[address.length - 1]
 
   getUserLocation = ->
     console.log('getting location')
