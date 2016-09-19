@@ -12,6 +12,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 gem 'httparty', '~> 0.13.7'
 gem 'handlebars'
+gem 'kaminari', '~> 0.17.0'
 # gem 'redis', '~> 3.0'
 # gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
