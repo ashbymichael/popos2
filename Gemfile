@@ -17,6 +17,10 @@ gem 'kaminari', '~> 0.17.0'
 # gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano-rails', group: :development
 
+source 'https://rails-assets.org' do
+  gem 'rails-assets-google-maps'
+end
+
 group :development, :test do
   gem 'byebug', platform: :mri
 end
