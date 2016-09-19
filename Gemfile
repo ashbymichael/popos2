@@ -19,6 +19,7 @@ gem 'kaminari', '~> 0.17.0'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-google-maps'
+  gem 'rails-assets-handlebars'
 end
 
 group :development, :test do

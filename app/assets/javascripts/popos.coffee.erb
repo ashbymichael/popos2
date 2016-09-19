@@ -75,6 +75,42 @@ $(document).on 'turbolinks:load', ->
     console.warn 'ERROR(' + err.code + '): ' + err.message
     return
 
+  addPopoMarkersToMap = ->
+    req = $.ajax(
+      url: '/markers'
+      dataType: 'json')
+    req.done (popos) ->
+      infoWindow = new (google.maps.InfoWindow)
+      google.maps.event.addListener infoWindow, 'domready', ->
+        styleInfoWindow()
+        return
+      i = 0
+      while i < popos.length
+        popo = popos[i]
+        userLatLng = new (google.maps.LatLng)(userLat, userLng)
+        popoLatLng = new (google.maps.LatLng)(popo.lat, popo.lng)
+        marker = new (google.maps.Marker)(
+          position: popoLatLng
+          map: mapDiv
+          title: popo.name)
+        distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, popoLatLng)
+        do (marker, popo) ->
+          source = $('#info-window-template').html()
+          template = Handlebars.compile(source)
+          context = popo
+          html = template(context)
+          google.maps.event.addListener marker, 'click', (e) ->
+            infoWindow.setContent html
+            infoWindow.open map, marker
+            return
+          return
+        i++
+      return
+    req.fail ->
+      console.log 'fail'
+      return
+    return
+
   loading.hide()
   $(document).ajaxStart(->
     loading.show()
@@ -86,10 +122,9 @@ $(document).on 'turbolinks:load', ->
   GoogleMapsLoader.KEY = "<%= ENV['GOOGLE_KEY'] %>"
   GoogleMapsLoader.LIBRARIES = ['geometry', 'places']
   GoogleMapsLoader.load (google) ->
-    console.log(google)
     initMap()
     getUserLocation()
-    # addPopoMarkersToMap()
+    addPopoMarkersToMap()
     # google.maps.event.addListener map, 'click', (event) ->
     #   infoWindow.close()
     #   return
