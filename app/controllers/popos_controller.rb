@@ -1,6 +1,12 @@
 class PoposController < ApplicationController
   def index
     @popos = Popo.all.page(params[:page])
+
+    if request.xhr?
+      puts "AJAXXXXXXXXXXXXXXXXXXXXXXXXXXXXX!"
+      render :index, layout: false
+    end
+
   end
 
   def create
