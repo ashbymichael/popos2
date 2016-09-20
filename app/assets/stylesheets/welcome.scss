@@ -1,3 +1,8 @@
+.logo {
+  width: 24rem;
+  margin: 1em;
+}
+
 .splash {
   display: flex;
   flex-direction: column;
@@ -10,6 +15,12 @@
   width: 100%;
   height: 30rem;
   height: 100vh;
+}
+
+#list-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #view-switcher-button {

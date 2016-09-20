@@ -59,17 +59,17 @@ $(document).on 'turbolinks:load', ->
     return
 
   checkIfSF = ->
-    if userLat > 37.81195386 and userLat < 37.82144645 and userLng > -122.52399445 and userLng < -122.3588562
-      return 'true'
+    if userLat > 37.77478541 and userLat < 37.82144645 and userLng > -122.52399445 and userLng < -122.3588562
+      return true
     else
-      return 'false'
+      return false
 
   setUserLocation = (pos) ->
     crd = pos.coords
     userLat = crd.latitude
     userLng = crd.longitude
     console.log('your location: ' + userLat + ', ' + userLng)
-    console.log(checkIfSF())
+    console.log('In San Francisco? ' + checkIfSF())
     return
 
 
@@ -92,7 +92,7 @@ $(document).on 'turbolinks:load', ->
           position: popoLatLng
           map: mapDiv
           title: popo.name)
-        distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, popoLatLng)
+        # distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, popoLatLng)
         do (marker, popo) ->
           source = $('#info-window-template').html()
           template = Handlebars.compile(source)
@@ -103,10 +103,10 @@ $(document).on 'turbolinks:load', ->
             infoWindow.open mapDiv, marker
             return
           return
-        i++
+        i += 1
       return
     req.fail ->
-      console.log 'fail'
+      console.warn 'Failed to locate POPOS'
       return
     return
 
