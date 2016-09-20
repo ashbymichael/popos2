@@ -1,6 +1,6 @@
 class PoposController < ApplicationController
   def index
-    @popos = Popo.all.page(params[:page])
+    @popos = Popo.order(:id).page(params[:page])
 
     if request.xhr?
       render erb: :index, layout: false
