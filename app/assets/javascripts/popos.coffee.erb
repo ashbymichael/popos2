@@ -4,6 +4,7 @@ $(document).on 'turbolinks:load', ->
   loading = $(".placeholder-loading")
   userLat = undefined
   userLng = undefined
+  infoWindow = undefined
 
   switchViews = ->
     current = $('#view-switcher-button').text()
@@ -42,14 +43,6 @@ $(document).on 'turbolinks:load', ->
           featureType: 'all'
           stylers: [ { saturation: -50 } ]
         }
-        # {
-        #   featureType: 'road.arterial'
-        #   elementType: 'geometry'
-        #   stylers: [
-        #     { hue: '#00ffee' }
-        #     { saturation: 50 }
-        #   ]
-        # }
         {
           featureType: 'poi.business'
           elementType: 'labels'
@@ -65,11 +58,20 @@ $(document).on 'turbolinks:load', ->
       currentLocation.innerHTML = 'Geolocation is not supported by this browser.'
     return
 
+  checkIfSF = ->
+    if userLat > 37.81195386 and userLat < 37.82144645 and userLng > -122.52399445 and userLng < -122.3588562
+      return 'true'
+    else
+      return 'false'
+
   setUserLocation = (pos) ->
     crd = pos.coords
     userLat = crd.latitude
     userLng = crd.longitude
+    console.log('your location: ' + userLat + ', ' + userLng)
+    console.log(checkIfSF())
     return
+
 
   getUserLocationError = (err) ->
     console.warn 'ERROR(' + err.code + '): ' + err.message
@@ -81,9 +83,6 @@ $(document).on 'turbolinks:load', ->
       dataType: 'json')
     req.done (popos) ->
       infoWindow = new (google.maps.InfoWindow)
-      google.maps.event.addListener infoWindow, 'domready', ->
-        styleInfoWindow()
-        return
       i = 0
       while i < popos.length
         popo = popos[i]
@@ -101,7 +100,7 @@ $(document).on 'turbolinks:load', ->
           html = template(context)
           google.maps.event.addListener marker, 'click', (e) ->
             infoWindow.setContent html
-            infoWindow.open map, marker
+            infoWindow.open mapDiv, marker
             return
           return
         i++
@@ -125,9 +124,6 @@ $(document).on 'turbolinks:load', ->
     initMap()
     getUserLocation()
     addPopoMarkersToMap()
-    # google.maps.event.addListener map, 'click', (event) ->
-    #   infoWindow.close()
-    #   return
     return
 
   $('#view-switcher-button').click(switchViews)
