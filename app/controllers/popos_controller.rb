@@ -13,6 +13,10 @@ class PoposController < ApplicationController
     redirect_to root_url
   end
 
+  def show
+    @popo = Popo.find(params[:id])
+  end
+
   def map_markers
     @popos = Popo.all
     respond_to do |format|
