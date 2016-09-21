@@ -1,10 +1,5 @@
 $(document).on 'turbolinks:load', ->
-  mapDiv  = $('#map-view')
-  listDiv = $('#list-view')
   loading = $(".placeholder-loading")
-  userLat = undefined
-  userLng = undefined
-  infoWindow = undefined
 
   switchViews = ->
     current = $('#view-switcher-button').text()
@@ -13,7 +8,7 @@ $(document).on 'turbolinks:load', ->
     else
       $('#view-switcher-button').text 'view as list'
     $('#map-view').toggle()
-    listDiv.toggle()
+    $('#list-view').toggle()
     return
 
   viewPage = (e) ->
@@ -31,85 +26,6 @@ $(document).on 'turbolinks:load', ->
     else
       return address[address.length - 1]
 
-  initMap = ->
-    mapDiv = new google.maps.Map(document.getElementById('map-view'),
-      center:
-        lat: 37.7880
-        lng: -122.405
-      scrollwheel: false
-      zoom: 15
-      styles: [
-        {
-          featureType: 'all'
-          stylers: [ { saturation: -50 } ]
-        }
-        {
-          featureType: 'poi.business'
-          elementType: 'labels'
-          stylers: [ { visibility: 'off' } ]
-        }
-      ])
-    return
-
-  getUserLocation = ->
-    if navigator.geolocation
-      navigator.geolocation.getCurrentPosition setUserLocation, getUserLocationError
-    else
-      currentLocation.innerHTML = 'Geolocation is not supported by this browser.'
-    return
-
-  checkIfSF = ->
-    if userLat > 37.77478541 and userLat < 37.82144645 and userLng > -122.52399445 and userLng < -122.3588562
-      return true
-    else
-      return false
-
-  setUserLocation = (pos) ->
-    crd = pos.coords
-    userLat = crd.latitude
-    userLng = crd.longitude
-    console.log('your location: ' + userLat + ', ' + userLng)
-    console.log('In San Francisco? ' + checkIfSF())
-    return
-
-
-  getUserLocationError = (err) ->
-    console.warn 'ERROR(' + err.code + '): ' + err.message
-    return
-
-  addPopoMarkersToMap = ->
-    req = $.ajax(
-      url: '/markers'
-      dataType: 'json')
-    req.done (popos) ->
-      infoWindow = new (google.maps.InfoWindow)
-      i = 0
-      while i < popos.length
-        popo = popos[i]
-        userLatLng = new (google.maps.LatLng)(userLat, userLng)
-        popoLatLng = new (google.maps.LatLng)(popo.lat, popo.lng)
-        marker = new (google.maps.Marker)(
-          position: popoLatLng
-          map: mapDiv
-          title: popo.name)
-        # distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, popoLatLng)
-        do (marker, popo) ->
-          source = $('#info-window-template').html()
-          template = Handlebars.compile(source)
-          context = popo
-          html = template(context)
-          google.maps.event.addListener marker, 'click', (e) ->
-            infoWindow.setContent html
-            infoWindow.open mapDiv, marker
-            return
-          return
-        i += 1
-      return
-    req.fail ->
-      console.warn 'Failed to locate POPOS'
-      return
-    return
-
   loading.hide()
   $(document).ajaxStart(->
     loading.show()
@@ -121,12 +37,11 @@ $(document).on 'turbolinks:load', ->
   GoogleMapsLoader.KEY = "<%= ENV['GOOGLE_KEY'] %>"
   GoogleMapsLoader.LIBRARIES = ['geometry', 'places']
   GoogleMapsLoader.load (google) ->
-    initMap()
-    getUserLocation()
-    addPopoMarkersToMap()
+    mapService.initMap()
+    mapService.getUserLocation()
+    mapService.addPopoMarkersToMap()
     return
 
   $('#view-switcher-button').click(switchViews)
   $(document.body).on('click', '.pagination a', viewPage)
-
   return

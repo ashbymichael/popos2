@@ -15,4 +15,5 @@
 //= require turbolinks
 //= require google-maps
 //= require handlebars.js
+//= require map-service.coffee
 //= require_tree .
