@@ -1,14 +1,15 @@
 <% @popos.each do |popo| %>
   <div class="info-card">
-    <div class="info-card-title">
-      <h1><%= popo.name %></h1>
-      <p><%= popo.address %></p>
+    <div class="popo-img">
+      <img src="http://sf-planning.org/ftp/files/GIS/POPOS/Pics/Small/<%= popo.image %>" onerror="this.src='http://placehold.it/250x200'">
     </div>
 
+
     <div class="popo-info">
-      <% if popo.image %>
-        <img src="http://sf-planning.org/ftp/files/GIS/POPOS/Pics/Small/<%= popo.image %>" onerror="this.src='http://placehold.it/250x200'">
-      <% end %>
+      <div class="info-card-title">
+        <h1><%= popo.name %></h1>
+        <%= popo.address %>
+      </div>
 
       <p><span class="location-span"><%= popo.location %></span></p>
       <% if popo.seating %>
