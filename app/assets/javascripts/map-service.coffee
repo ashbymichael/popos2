@@ -32,17 +32,7 @@
         lng: -122.405
       scrollwheel: false
       zoom: 15
-      styles: [
-        {
-          featureType: 'all'
-          stylers: [ { saturation: -50 } ]
-        }
-        {
-          featureType: 'poi.business'
-          elementType: 'labels'
-          stylers: [ { visibility: 'off' } ]
-        }
-      ])
+      styles: mapStyles.minimalist)
     return
 
   checkIfSF: ->
