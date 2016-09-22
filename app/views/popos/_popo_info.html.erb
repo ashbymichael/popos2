@@ -1,35 +1,37 @@
 <% @popos.each do |popo| %>
-  <div class="info-card">
-    <div class="popo-img">
-      <img src="http://sf-planning.org/ftp/files/GIS/POPOS/Pics/Small/<%= popo.image %>" onerror="this.src='http://placehold.it/250x200'">
-    </div>
-
-
-    <div class="popo-info">
-      <div class="info-card-title">
-        <h1><%= popo.name %></h1>
-        <%= popo.address %>
+  <% cache popo do %>
+    <div class="info-card">
+      <div class="popo-img">
+        <img src="http://sf-planning.org/ftp/files/GIS/POPOS/Pics/Small/<%= popo.image %>" onerror="this.src='http://placehold.it/250x200'">
       </div>
 
-      <p><span class="location-span"><%= popo.location %></span></p>
-      <% if popo.seating %>
-        <p><b>Seating: </b>Yes. <%= popo.seating_description %></p>
-      <% end %>
 
-      <% if popo.hours.length > 0 %>
-        <p><b>Hours:</b> <%= popo.hours %></p>
-      <% else %>
-        <p><b>Hours:</b> <%= popo.hours_type %></p>
-      <% end %>
+      <div class="popo-info">
+        <div class="info-card-title">
+          <h1><%= popo.name %></h1>
+          <%= popo.address %>
+        </div>
 
-      <% if popo.accessibility && popo.accessibility.length > 0 %>
-        <p><b>Accessibility:</b> <%= popo.accessibility %></p>
-      <% end %>
+        <p><span class="location-span"><%= popo.location %></span></p>
+        <% if popo.seating %>
+          <p><b>Seating: </b>Yes. <%= popo.seating_description %></p>
+        <% end %>
 
-      <% if popo.description && popo.description.length > 0 %>
-        <p><b>Description:</b><br><%= popo.description %></p>
-      <% end %>
+        <% if popo.hours.length > 0 %>
+          <p><b>Hours:</b> <%= popo.hours %></p>
+        <% else %>
+          <p><b>Hours:</b> <%= popo.hours_type %></p>
+        <% end %>
 
+        <% if popo.accessibility && popo.accessibility.length > 0 %>
+          <p><b>Accessibility:</b> <%= popo.accessibility %></p>
+        <% end %>
+
+        <% if popo.description && popo.description.length > 0 %>
+          <p><b>Description:</b><br><%= popo.description %></p>
+        <% end %>
+
+      </div>
     </div>
-  </div>
+  <% end %>
 <% end %>
