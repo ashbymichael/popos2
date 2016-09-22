@@ -53,7 +53,7 @@
           position: popoLatLng
           map: mapService.mapDiv
           title: popo.name)
-        # distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, popoLatLng)
+        distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, popoLatLng)
         do (marker, popo) ->
           source = $('#info-window-template').html()
           template = Handlebars.compile(source)
