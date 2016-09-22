@@ -21,13 +21,11 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-bottom: 3rem;
 }
 
 #view-switcher-button {
-  background-color: inherit;
-  border: none;
-  font-size: inherit;
-  padding: 0;
+  margin: 1em 0;
 }
   #view-switcher-button:hover {
     cursor: pointer;

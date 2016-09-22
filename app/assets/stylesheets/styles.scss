@@ -3,6 +3,7 @@
 body {
   font-family: 'Roboto', sans-serif;
   color: #333;
+  box-sizing: border-box;
 }
 
 main {
@@ -17,4 +18,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+a {
+  color:inherit;
 }

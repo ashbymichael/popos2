@@ -15,11 +15,12 @@
 
 <div id="popos-viewer">
   <div>
-    <button id="view-switcher-button">view as list</button>
+    <button id="view-switcher-button" class="mdl-button">view as list</button>
   </div>
 
   <div class="placeholder-loading">
-    Loading...
+    <i class="fa fa-circle-o-notch fa-spin fa-5x fa-fw"></i>
+<span class="sr-only">Loading...</span>
   </div>
 
   <div id="list-view" class="container" style="display:none">
@@ -29,52 +30,32 @@
   </div>
 
   <div id="map-view">
-    Map view goes here
+    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+    <span class="sr-only">Loading...</span>
   </div>
 </div>
 
 <script id="info-window-template" type="text/x-handlebars-template">
-  <div id="info-window">
-    <div class="title">
-      <h1>{{name}}
-      </h1>
-      <p>{{address}}</p>
-    </div>
+  <div class="info-window">
 
-    <div class="popo-info">
+
+    <div class="popo-img">
       {{#if image}}
-      <img src="http://sf-planning.org/ftp/files/GIS/POPOS/Pics/Small/{{image}}" alt="">
-      {{/if}}
-      <p><i>{{location}}</i></p>
-      {{#if seating}}
-      <p><b>Seating: </b>Yes. {{seating_description}}</p>
-      {{/if}}
-      {{#if hours}}
-      <p><b>Hours:</b> {{hours}}</p>
+      <img src="http://sf-planning.org/ftp/files/GIS/POPOS/Pics/Small/{{image}}"
+      onerror="this.src='http://placehold.it/200x200'"/>
       {{else}}
-      <p><b>Hours:</b> {{hours_type}}</p>
+      <img src="http://placehold.it/200x200" />
       {{/if}}
-      {{#if accessibility}}
-      <p><b>Accessibility:</b> {{accessibility}}</p>
-      {{/if}}
-      <p><b>Description:</b><br>{{description}}</p>
-    </div>
-  </div>
-</script>
-
-<script id="list-info-template" type="text/x-handlebars-template">
-  <div id="list-info">
-    <div class="title">
-      <h1>{{name}}
-      </h1>
-      <p>{{address}}</p>
     </div>
 
     <div class="popo-info">
-      {{#if image}}
-      <img src="http://sf-planning.org/ftp/files/GIS/POPOS/Pics/Small/{{image}}">
-      {{/if}}
-      <p>{{location_type}}, <i>{{location}}</i></p>
+      <div class="title">
+        <h1>{{name}}
+        </h1>
+        {{address}}
+      </div>
+
+      <p><span class="location">{{location}}</span></p>
       {{#if seating}}
       <p><b>Seating: </b>Yes. {{seating_description}}</p>
       {{/if}}

@@ -1,25 +1,3 @@
-# mapDiv  = $('#map-view')
-#
-# initMap = ->
-#   mapService.mapDiv = new google.maps.Map(document.getElementById('map-view'),
-#     center:
-#       lat: 37.7880
-#       lng: -122.405
-#     scrollwheel: false
-#     zoom: 15
-#     styles: [
-#       {
-#         featureType: 'all'
-#         stylers: [ { saturation: -50 } ]
-#       }
-#       {
-#         featureType: 'poi.business'
-#         elementType: 'labels'
-#         stylers: [ { visibility: 'off' } ]
-#       }
-#     ])
-#   return
-
 @mapService = {
   mapDiv: $('#map-view')
   userLat: undefined
@@ -55,7 +33,6 @@
     console.log('your location: ' + mapService.userLat + ', ' + mapService.userLng)
     console.log('In San Francisco? ' + mapService.checkIfSF())
     return
-
 
   getUserLocationError: (err) ->
     console.warn 'ERROR(' + err.code + '): ' + err.message
@@ -93,5 +70,4 @@
       console.warn 'Failed to locate POPOS'
       return
     return
-
 }
