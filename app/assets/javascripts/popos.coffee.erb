@@ -26,24 +26,6 @@ $(document).on 'turbolinks:load', ->
     else
       return address[address.length - 1]
 
-  getNearby = () ->
-    data = {
-      'userLat': mapService.userLat
-      'userLng': mapService.userLng}
-    req = $.ajax(
-      url: '/popos/nearby'
-      method: 'post'
-      data: data
-      dataType: 'json')
-    req.done (res) ->
-      $('#list-view').html(res.html)
-      mapService.hideAllMarkers()
-      mapService.markNearbyOnMap(res)
-      mapService.mapDiv.panTo(mapService.markers[0].getPosition())
-      mapService.mapDiv.setZoom(17)
-      return
-    return
-
   loading.hide()
   $(document).ajaxStart(->
     loading.show()
@@ -62,6 +44,6 @@ $(document).on 'turbolinks:load', ->
 
   #listeners
   $('#view-switcher-button').click(switchViews)
-  $('#logo').click(getNearby)
+  $('#logo').click(mapService.getNearby)
   $(document.body).on('click', '.pagination a', viewPage)
   return

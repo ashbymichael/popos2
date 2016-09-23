@@ -7,13 +7,6 @@ class GeoService
     }
   end
 
-  # def self.get_distance(args)
-    # origin = args[:origin]
-    # destination = args[:destination]
-    # res = HTTParty.post("https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=#{origin[:lat]},#{origin[:long]}&destinations=#{destination[:lat]},#{destination[:long]}&key=#{ENV['GOOGLE_KEY']}")
-    # res['rows'][0]['elements'][0]['distance']['text'][0..-4].to_f
-  # end
-
   def self.get_distance(args)
     r = 6371e3 # meters
     ph1 = args[:origin][:lat] * Math::PI / 180  #convert to radians
@@ -24,5 +17,18 @@ class GeoService
         Math.cos(ph2) * Math.sin(dl / 2) * Math.sin(dl / 2)
     c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     r * c
+  end
+
+  def self.find_nearest(args)
+    result = {}
+
+    Popo.all.each do |popo|
+      result[popo.id] = GeoService.get_distance(
+        origin: {lat: args[:user_lat].to_f, lng: args[:userLng].to_f},
+        destination: {lat: popo.lat, lng: popo.lng})
+    end
+
+    result = result.sort_by { |k,v| v }[0..4]
+    result.map! { |popo| Popo.find(popo[0]) }
   end
 end

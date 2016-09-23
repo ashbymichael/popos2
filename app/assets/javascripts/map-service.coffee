@@ -20,6 +20,24 @@
     else
       return false
 
+  getNearby: ->
+    data = {
+      'userLat': mapService.userLat
+      'userLng': mapService.userLng}
+    req = $.ajax(
+      url: '/popos/nearby'
+      method: 'post'
+      data: data
+      dataType: 'json')
+    req.done (res) ->
+      $('#list-view').html(res.html)
+      mapService.hideAllMarkers()
+      mapService.markNearbyOnMap(res)
+      mapService.mapDiv.panTo(mapService.markers[0].getPosition())
+      mapService.mapDiv.setZoom(17)
+      return
+    return
+
   getUserLocation: ->
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition mapService.setUserLocation, mapService.getUserLocationError
