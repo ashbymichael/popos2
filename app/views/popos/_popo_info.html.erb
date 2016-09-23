@@ -2,7 +2,9 @@
   <% cache popo do %>
     <div class="info-card">
       <div class="popo-list-img">
-        <img src="http://sf-planning.org/ftp/files/GIS/POPOS/Pics/Small/<%= popo.image %>" onerror="this.src='http://placehold.it/250x200'" />
+        <a href="<%= popo_path(popo) %>">
+          <img src="http://sf-planning.org/ftp/files/GIS/POPOS/Pics/Small/<%= popo.image %>" onerror="this.src='http://placehold.it/250x200'" />
+        </a>
       </div>
 
       <div class="popo-list-info">
