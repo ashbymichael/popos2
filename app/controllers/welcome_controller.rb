@@ -1,6 +1,6 @@
 class WelcomeController < ApplicationController
   def index
-    GeoService.say_hello
+    p GeoService.grab_location
     @popos = Popo.all.page(params[:page])
   end
 end

@@ -1,5 +1,6 @@
 @mapService = {
   mapDiv: $('#map-view')
+  markers: []
   userLat: undefined
   userLng: undefined
 
@@ -43,17 +44,18 @@
       url: '/markers'
       dataType: 'json')
     req.done (popos) ->
-      infoWindow = new (google.maps.InfoWindow)
+      infoWindow = new google.maps.InfoWindow
       i = 0
       while i < popos.length
+
         popo = popos[i]
-        userLatLng = new (google.maps.LatLng)(mapService.userLat, mapService.userLng)
-        popoLatLng = new (google.maps.LatLng)(popo.lat, popo.lng)
-        marker = new (google.maps.Marker)(
+        userLatLng = new google.maps.LatLng(mapService.userLat, mapService.userLng)
+        popoLatLng = new google.maps.LatLng(popo.lat, popo.lng)
+        marker = new google.maps.Marker(
           position: popoLatLng
           map: mapService.mapDiv
           title: popo.name)
-        distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, popoLatLng)
+        mapService.markers.push(marker)
         do (marker, popo) ->
           source = $('#info-window-template').html()
           template = Handlebars.compile(source)
@@ -64,10 +66,42 @@
             infoWindow.open mapService.mapDiv, marker
             return
           return
+
         i += 1
       return
     req.fail ->
       console.warn 'Failed to locate POPOS'
       return
+    return
+
+  markNearbyOnMap: (popos) ->
+    i = 0
+    while i < 5
+      popo = popos[i]
+      userLatLng = new google.maps.LatLng(mapService.userLat, mapService.userLng)
+      popoLatLng = new google.maps.LatLng(popo.lat, popo.lng)
+      marker = new google.maps.Marker(
+        position: popoLatLng
+        map: mapService.mapDiv
+        title: popo.name)
+      do (marker, popo) ->
+        source = $('#info-window-template').html()
+        template = Handlebars.compile(source)
+        context = popo
+        html = template(context)
+        google.maps.event.addListener marker, 'click', (e) ->
+          infoWindow.setContent html
+          infoWindow.open mapService.mapDiv, marker
+          return
+        return
+
+      i += 1
+
+  hideAllMarkers: ->
+    i = 0
+    while i < mapService.markers.length
+      mapService.markers[i].setMap(null)
+      i += 1
+    mapService.markers.length = 0
     return
 }
