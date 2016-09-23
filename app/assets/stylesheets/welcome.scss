@@ -3,6 +3,10 @@
   margin: 1em;
 }
 
+#logo:hover {
+  cursor: pointer;
+}
+
 .splash {
   display: flex;
   flex-direction: column;
