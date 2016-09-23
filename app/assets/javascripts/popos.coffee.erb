@@ -36,13 +36,11 @@ $(document).on 'turbolinks:load', ->
       data: data
       dataType: 'json')
     req.done (res) ->
-      mapService.hideAllMarkers()
-      console.log(res)
       $('#list-view').html(res.html)
-      $('#map-view').hide()
-      $('#list-view').show()
-      $('#view-switcher-button').text('view as map')
+      mapService.hideAllMarkers()
       mapService.markNearbyOnMap(res)
+      mapService.mapDiv.panTo(mapService.markers[0].getPosition())
+      mapService.mapDiv.setZoom(17)
       return
     return
 
@@ -62,7 +60,8 @@ $(document).on 'turbolinks:load', ->
     mapService.addPopoMarkersToMap()
     return
 
+  #listeners
   $('#view-switcher-button').click(switchViews)
-  $(document.body).on('click', '.pagination a', viewPage)
   $('#logo').click(getNearby)
+  $(document.body).on('click', '.pagination a', viewPage)
   return
