@@ -29,6 +29,6 @@ class GeoService
     end
 
     result = result.sort_by { |k,v| v }[0..4]
-    result.map! { |popo| Popo.find(popo[0]) }
+    result.map! { |popo| Popo.find(popo[0]) } #TODO use object as key
   end
 end

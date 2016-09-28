@@ -1,4 +1,7 @@
 $(document).on 'turbolinks:load', ->
+  if $('#js').html() == 'disable'
+    return
+
   loading = $(".placeholder-loading")
 
   switchViews = ->
