@@ -1,4 +1,4 @@
-let mapService = {
+var mapService = {
   mapDiv: $('#map-view'),
   markers: [],
   userLat: undefined,
@@ -27,10 +27,10 @@ let mapService = {
   },
 
   getNearby() {
-    let data = {
+    var data = {
       'userLat': mapService.userLat,
       'userLng': mapService.userLng};
-    let req = $.ajax({
+    var req = $.ajax({
       url: '/popos/nearby',
       method: 'post',
       data,
@@ -53,7 +53,7 @@ let mapService = {
   },
 
   setUserLocation(pos) {
-    let crd = pos.coords;
+    var crd = pos.coords;
     mapService.userLat = crd.latitude;
     mapService.userLng = crd.longitude;
   },
@@ -63,12 +63,12 @@ let mapService = {
   },
 
   addPopoMarkersToMap() {
-    let req = $.ajax({
+    var req = $.ajax({
       url: '/markers',
       dataType: 'json'});
     req.done(function(popos) {
       infoWindow = new google.maps.InfoWindow;
-      let i = 0;
+      var i = 0;
       while (i < popos.length) {
         mapService.placeMarker(popos[i]);
         i += 1;
@@ -80,9 +80,9 @@ let mapService = {
   },
 
   markNearbyOnMap(popos) {
-    let i = 0;
+    var i = 0;
     return (() => {
-      let result = [];
+      var result = [];
       while (i < 5) {
         mapService.placeMarker(popos[i]);
         result.push(i += 1);
@@ -92,7 +92,7 @@ let mapService = {
   },
 
   hideAllMarkers() {
-    let i = 0;
+    var i = 0;
     while (i < mapService.markers.length) {
       mapService.markers[i].setMap(null);
       i += 1;
@@ -101,18 +101,18 @@ let mapService = {
   },
 
   placeMarker(popo) {
-    let userLatLng = new google.maps.LatLng(mapService.userLat, mapService.userLng);
-    let popoLatLng = new google.maps.LatLng(popo.lat, popo.lng);
-    let marker = new google.maps.Marker({
+    var userLatLng = new google.maps.LatLng(mapService.userLat, mapService.userLng);
+    var popoLatLng = new google.maps.LatLng(popo.lat, popo.lng);
+    var marker = new google.maps.Marker({
       position: popoLatLng,
       map: mapService.mapDiv,
       title: popo.name});
     mapService.markers.push(marker);
     (function(marker, popo) {
-      let source = $('#info-window-template').html();
-      let template = Handlebars.compile(source);
-      let context = popo;
-      let html = template(context);
+      var source = $('#info-window-template').html();
+      var template = Handlebars.compile(source);
+      var context = popo;
+      var html = template(context);
       google.maps.event.addListener(marker, 'click', function(e) {
         infoWindow.setContent(html);
         infoWindow.open(mapService.mapDiv, marker);

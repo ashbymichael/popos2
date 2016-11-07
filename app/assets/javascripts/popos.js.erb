@@ -3,10 +3,10 @@ $(document).on('turbolinks:load', function() {
     return;
   }
 
-  let loading = $(".placeholder-loading");
+  var loading = $(".placeholder-loading");
 
-  let switchViews = function() {
-    let current = $('#view-switcher-button').text();
+  var switchViews = function() {
+    var current = $('#view-switcher-button').text();
     if (current === 'view as list') {
       $('#view-switcher-button').text('view as map');
     } else {
@@ -16,9 +16,9 @@ $(document).on('turbolinks:load', function() {
     $('#list-view').toggle();
   };
 
-  let viewPage = function(e) {
+  var viewPage = function(e) {
     e.preventDefault();
-    let href = `popos?page=${extractPageNumber($(this).attr('href'))}`;
+    var href = `popos?page=${extractPageNumber($(this).attr('href'))}`;
     $.ajax({url: href}).done(function(res) {
       $('#list-view').html($($.parseHTML(res)).filter('#list-view').html());
     });
